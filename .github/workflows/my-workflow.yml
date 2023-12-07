@@ -22,12 +22,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+        
       - name: Run Checkstyle
         uses: nikitasavinov/checkstyle-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: 'github-pr-checker'
+          checkstyle_config:  ${{ github.workspace }}/**/config/checkstyle/checkstyle.xml
 
   coverage:
     runs-on: ubuntu-latest
@@ -37,9 +37,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Generate coverage report
-        run: gradle test jacocoTestReport
+        run: |
+          chmod +x gradlew
+          ./gradlew testCoverage
 
-      - name: Upload coverage report
+      - name: Add coverage to PR
         uses: madrapps/jacoco-report@v1.6.1
         with:
           paths: ${{ github.workspace }}/**/build/reports/jacoco/test/jacocoTestReport.xml
