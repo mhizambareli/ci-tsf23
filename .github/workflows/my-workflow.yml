@@ -46,7 +46,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: testReport
-          path: ${{ github.WORKSPACE }}/build/jacoco
+          path: ${{ github.WORKSPACE }}/build/jacoco/
 
       - name: Generate coverage report
         run: gradle test jacocoTestReport
