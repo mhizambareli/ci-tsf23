@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Generate coverage report
-        run: ./gradlew testCoverage
+        run: chmod +x gradlew && ./gradlew testCoverage
 
       - name: Add coverage to PR
         uses: madrapps/jacoco-report@v1.6.1
