@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "homework" ]
   pull_request:
-    branches: [ "homework" ]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -56,3 +56,4 @@ jobs:
         with:
           paths: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
           token: ${{ secrets.GITHUB_TOKEN }}
+          update-comment: true
