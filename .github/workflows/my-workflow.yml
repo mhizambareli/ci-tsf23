@@ -20,7 +20,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: testReport
-          path: ${{ github.WORKSPACE }}/build/reports/jacoco/test.exec
+          path: ${{ github.WORKSPACE }}/build/jacoco/test.exec
 
   checkstyle:
     runs-on: ubuntu-latest
