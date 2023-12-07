@@ -15,6 +15,12 @@ jobs:
 
       - name: Build project
         run: gradle clean build
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: testReport
+          path: ${{ github.WORKSPACE }}/build/reports/jacoco/test.exec
 
   checkstyle:
     runs-on: ubuntu-latest
@@ -27,7 +33,7 @@ jobs:
         uses: nikitasavinov/checkstyle-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          checkstyle_config:  ${{ github.workspace }}/**/config/checkstyle/checkstyle.xml
+          checkstyle_config:  ${{ github.workspace }}/config/checkstyle/checkstyle.xml
 
   coverage:
     runs-on: ubuntu-latest
@@ -36,11 +42,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name : Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: testReport
+          path: ${{ github.WORKSPACE }}/build/jacoco
+
       - name: Generate coverage report
         run: gradle test jacocoTestReport
 
       - name: Add coverage to PR
         uses: madrapps/jacoco-report@v1.6.1
         with:
-          paths: ${{ github.workspace }}/**/build/reports/jacoco/test/jacocoTestReport.xml
+          paths: ${{ github.workspace }}/build/reports/jacoco/test/jacocoTestReport.xml
           token: ${{ secrets.GITHUB_TOKEN }}
